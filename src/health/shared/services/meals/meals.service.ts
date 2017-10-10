@@ -25,6 +25,10 @@ export class MealsService {
             this.store.set('meals', meals)
         });
 
+    public getMeals() {
+        return this.meals$.subscribe();
+    }
+
     constructor(private store: Store,
                 private db: AngularFireDatabase,
                 private authService: AuthService) {
