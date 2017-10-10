@@ -1,37 +1,62 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MealModel, MealsService } from "../../../shared/services/meals/meals.service";
-import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
-import { Store } from "store";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Store } from 'store';
+
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+
+import { Meal, MealsService } from '../../../shared/services/meals/meals.service';
 
 @Component({
-    selector: 'meals',
-    styleUrls: ['meals.component.scss'],
-    template: `
-        <div>
-            <p *ngIf="loading">loading...</p>
-            <p *ngIf="!loading">{{meals$ | async | json}}</p>
+  selector: 'meals',
+  styleUrls: ['meals.component.scss'],
+  template: `
+    <div class="meals">
+      <div class="meals__title">
+        <h1>
+          <img src="/img/food.svg">
+          Your meals
+        </h1>
+        <a 
+          class="btn__add"
+          [routerLink]="['../meals/new']">
+          <img src="/img/add-white.svg">
+          New meal
+        </a>
+      </div>
+      <div *ngIf="meals$ | async as meals; else loading;">
+        <div class="message" *ngIf="!meals.length">
+          <img src="/img/face.svg">
+          No meals, add a new meal to start
         </div>
-    `
+        <!-- meals ngFor -->
+      </div>
+      <ng-template #loading>
+        <div class="message">
+          <img src="/img/loading.svg">
+          Fetching meals...
+        </div>
+      </ng-template>
+    </div>
+  `
 })
 export class MealsComponent implements OnInit, OnDestroy {
 
-    public meals$: Observable<MealModel[]>;
-    public loading: boolean = true;
-    private subscription: Subscription = new Subscription();
+  meals$: Observable<Meal[]>;
+  subscription: Subscription;
 
-    constructor(private mealsService: MealsService, private store: Store) {
-    }
+  constructor(
+    private store: Store,
+    private mealsService: MealsService
+  ) {}
 
-    public ngOnInit(): void {
-        this.meals$ = this.store.select<MealModel[]>('meals');
-        this.subscription = this.mealsService.meals$.subscribe(data => {
-            this.loading = false;
-        });
-    }
+  ngOnInit() {
+    this.meals$ = this.store.select<Meal[]>('meals');
+    this.subscription = this.mealsService.meals$.subscribe();
+  }
 
-    public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-    }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }
