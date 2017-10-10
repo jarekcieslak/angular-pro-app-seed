@@ -10,6 +10,7 @@ import { AppComponent } from './containers/app/app.component';
 import { SharedModule } from "../auth/shared/shared.module";
 import { AppNavComponent } from "./components/app-nav/app-nav.component";
 import { AppHeaderComponent } from "./components/app-header/app-header.component";
+import { HealthModule } from "../health/health.module";
 
 // components
 
@@ -21,6 +22,7 @@ export const ROUTES: Routes = [];
         BrowserModule,
         RouterModule.forRoot(ROUTES),
         AuthModule,
+        HealthModule,
         SharedModule.forRoot()
     ],
     declarations: [
