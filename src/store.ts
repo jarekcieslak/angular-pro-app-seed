@@ -1,14 +1,18 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { UserModel } from "./app/models/user.model";
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 export interface State {
+    user: UserModel,
     [key: string]: any
 }
 
-const state: State = {};
+const state: State = {
+    user: undefined
+};
 
 export class Store {
 

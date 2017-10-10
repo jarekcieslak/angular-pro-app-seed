@@ -7,6 +7,7 @@ import { Store } from 'store';
 import { AuthModule } from "../auth/auth.module";
 // containers
 import { AppComponent } from './containers/app/app.component';
+import { SharedModule } from "../auth/shared/shared.module";
 
 // components
 
@@ -17,7 +18,8 @@ export const ROUTES: Routes = [];
     imports: [
         BrowserModule,
         RouterModule.forRoot(ROUTES),
-        AuthModule
+        AuthModule,
+        SharedModule.forRoot()
     ],
     declarations: [
         AppComponent
@@ -31,13 +33,3 @@ export const ROUTES: Routes = [];
 })
 export class AppModule {
 }
-
-//
-// var config = {
-//     apiKey: "AIzaSyBboFPjwqJGk8gTEy4NNYtCyM7kiytYZdk",
-//     authDomain: "fitnessapp-6ae8f.firebaseapp.com",
-//     databaseURL: "https://fitnessapp-6ae8f.firebaseio.com",
-//     projectId: "fitnessapp-6ae8f",
-//     storageBucket: "fitnessapp-6ae8f.appspot.com",
-//     messagingSenderId: "627184340113"
-// };
